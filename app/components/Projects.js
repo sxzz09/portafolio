@@ -1,74 +1,60 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { useLanguage } from "../context/LanguageContext";
 
 const HEADER_MS = 100;
-
-const PROJECTS = [
-  {
-    title: "Proyecto 1",
-    description: "Descripción breve del proyecto y las tecnologías utilizadas.",
-    tags: ["Next.js", "Tailwind CSS", "TypeScript"],
-    image: "/proyecto-1.jpg", // 
-    link: "https://github.com",
-  },
-  {
-    title: "Proyecto 2",
-    description: "Descripción breve del proyecto y las tecnologías utilizadas.",
-    tags: ["React", "Node.js", "MongoDB"],
-    image: "/proyecto-2.jpg", // 
-    link: "https://github.com",
-  },
-];
 
 export default function Projects() {
   const rootRef = useRef(null);
   const [visible, setVisible] = useState(false);
+  const { lang, t } = useLanguage();
 
-  const reveal = useCallback(() => {
-    setVisible(true);
+  const PROJECTS = [
+    {
+      title: lang === "es" ? "Proyecto 1" : "Project 1",
+      description: t.project1Desc,
+      tags: ["Next.js", "Tailwind CSS", "TypeScript"],
+      image: "/proyecto-1.jpg",
+      link: "https://github.com",
+    },
+    {
+      title: lang === "es" ? "Proyecto 2" : "Project 2",
+      description: t.project2Desc,
+      tags: ["React", "Node.js", "MongoDB"],
+      image: "/proyecto-2.jpg",
+      link: "https://github.com",
+    },
+  ];
+
+  useEffect(() => {
+    const element = rootRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    function checkPosition() {
-      if (!rootRef.current) return;
+    if (rootRef.current) {
       const rect = rootRef.current.getBoundingClientRect();
-      if (rect.top <= window.innerHeight * 0.75) {
-        reveal();
-        window.removeEventListener("scroll", checkPosition);
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setVisible(false);
+        const timer = setTimeout(() => setVisible(true), 50);
+        return () => clearTimeout(timer);
       }
     }
-
-    function onClick(e) {
-      const target = e.target.closest("a, button");
-      if (target) {
-        const href = target.getAttribute("href") || "";
-        const text = target.innerText?.toLowerCase() || "";
-        if (href.includes("#proyectos") || text.includes("proyectos")) {
-          setTimeout(() => {
-            reveal();
-          }, 350);
-        }
-      }
-    }
-
-    function onHashChange() {
-      if (window.location.hash === "#proyectos") {
-        reveal();
-      }
-    }
-
-    window.addEventListener("scroll", checkPosition);
-    document.addEventListener("click", onClick);
-    window.addEventListener("hashchange", onHashChange);
-
-    return () => {
-      window.removeEventListener("scroll", checkPosition);
-      document.removeEventListener("click", onClick);
-      window.removeEventListener("hashchange", onHashChange);
-    };
-  }, [reveal]);
+  }, [lang]);
 
   const getAnimStyle = (delay) => ({
     opacity: visible ? 1 : 0,
@@ -91,13 +77,13 @@ export default function Projects() {
         className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-red-400/90"
         style={getAnimStyle(0)}
       >
-        Portafolio
+        {t.projectsTag}
       </p>
       <h2
         className="text-3xl font-semibold tracking-tight text-white sm:text-4xl"
         style={getAnimStyle(HEADER_MS)}
       >
-        Proyectos
+        {t.projectsTitle}
       </h2>
 
       <div className="mt-10 grid gap-8 sm:grid-cols-2">
@@ -107,7 +93,6 @@ export default function Projects() {
             className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition duration-300 hover:border-red-500/40 hover:bg-white/[0.05]"
             style={getAnimStyle(HEADER_MS * (2 + index))}
           >
-            
             <div className="relative aspect-[16/9] w-full overflow-hidden bg-zinc-900">
               <Image
                 src={project.image}
@@ -118,7 +103,6 @@ export default function Projects() {
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-60" />
             </div>
 
-            {/* Contenido del Proyecto */}
             <div className="flex flex-1 flex-col justify-between p-6">
               <div>
                 <h3 className="text-xl font-semibold text-white transition group-hover:text-red-400">
@@ -147,7 +131,7 @@ export default function Projects() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-xs font-semibold text-red-400 transition hover:text-red-300"
                 >
-                  Ver más
+                  {t.seeMore}
                   <svg
                     viewBox="0 0 24 24"
                     className="size-3.5 fill-none stroke-current stroke-2"

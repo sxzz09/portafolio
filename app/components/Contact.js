@@ -1,59 +1,43 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import SocialLinks from "./SocialLinks";
+import { useLanguage } from "../context/LanguageContext";
 
 const HEADER_MS = 100;
 
 export default function Contact() {
   const rootRef = useRef(null);
   const [visible, setVisible] = useState(false);
+  const { lang, t } = useLanguage();
 
-  const reveal = useCallback(() => {
-    setVisible(true);
+  useEffect(() => {
+    const element = rootRef.current;
+    if (!element) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
-    function checkPosition() {
-      if (!rootRef.current) return;
+    if (rootRef.current) {
       const rect = rootRef.current.getBoundingClientRect();
-      if (rect.top <= window.innerHeight * 0.85) {
-        reveal();
-        window.removeEventListener("scroll", checkPosition);
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setVisible(false);
+        const timer = setTimeout(() => setVisible(true), 50);
+        return () => clearTimeout(timer);
       }
     }
-
-    function onClick(e) {
-      const target = e.target.closest("a, button");
-      if (target) {
-        const href = target.getAttribute("href") || "";
-        const text = target.innerText?.toLowerCase() || "";
-        if (href.includes("#contacto") || text.includes("contacto")) {
-          setTimeout(() => {
-            reveal();
-          }, 350);
-        }
-      }
-    }
-
-    function onHashChange() {
-      if (window.location.hash === "#contacto") {
-        reveal();
-      }
-    }
-
-    window.addEventListener("scroll", checkPosition);
-    document.addEventListener("click", onClick);
-    window.addEventListener("hashchange", onHashChange);
-
-    checkPosition();
-
-    return () => {
-      window.removeEventListener("scroll", checkPosition);
-      document.removeEventListener("click", onClick);
-      window.removeEventListener("hashchange", onHashChange);
-    };
-  }, [reveal]);
+  }, [lang]);
 
   const getAnimStyle = (delay) => ({
     opacity: visible ? 1 : 0,
@@ -77,25 +61,23 @@ export default function Contact() {
           className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-red-400/90"
           style={getAnimStyle(0)}
         >
-          ¿Hablamos?
+          {t.contactTag}
         </p>
 
         <h2
           className="text-3xl font-semibold tracking-tight text-white sm:text-5xl"
           style={getAnimStyle(HEADER_MS)}
         >
-          Trabajemos juntos
+          {t.contactTitle}
         </h2>
 
         <p
           className="mx-auto mt-4 max-w-xl text-base text-zinc-400 sm:text-lg"
           style={getAnimStyle(HEADER_MS * 2)}
         >
-          Estoy disponible para nuevos proyectos, oportunidades laborales o
-          simplemente para conectar. ¡Escríbeme!
+          {t.contactDesc}
         </p>
 
-        
         <div
           className="mt-10 flex justify-center"
           style={getAnimStyle(HEADER_MS * 3)}
@@ -103,7 +85,6 @@ export default function Contact() {
           <SocialLinks />
         </div>
 
-       
         <div
           className="mt-12 flex justify-center"
           style={getAnimStyle(HEADER_MS * 4)}
@@ -119,7 +100,7 @@ export default function Contact() {
             >
               <path d="M12 19V5M5 12l7-7 7 7" />
             </svg>
-            Volver arriba
+            {t.backToTop}
           </a>
         </div>
 
@@ -127,8 +108,7 @@ export default function Contact() {
           className="mt-12 text-xs text-zinc-600"
           style={getAnimStyle(HEADER_MS * 4.5)}
         >
-          © {new Date().getFullYear()} Sebastián. Diseñado y construido con Next.js
-          & Tailwind CSS.
+          © {new Date().getFullYear()} {t.footerText}
         </p>
       </div>
     </section>
