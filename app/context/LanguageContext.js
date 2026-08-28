@@ -29,6 +29,10 @@ export const translations = {
     card4Title: "Aprendizaje Continuo",
     card4Desc: "Adaptación rápida a nuevas herramientas, librerías y entornos de trabajo.",
 
+    // Tech Stack (NUEVO)
+    techTag: "Tecnologías & Herramientas",
+    techTitle: "Mi Tech Stack",
+
     // Projects
     projectsTag: "Portafolio",
     projectsTitle: "Proyectos",
@@ -66,6 +70,10 @@ export const translations = {
     card3Desc: "Ability to break down complex issues into quick, efficient solutions.",
     card4Title: "Continuous Learning",
     card4Desc: "Fast adaptation to new tools, libraries, and workspace environments.",
+
+    // Tech Stack (NUEVO)
+    techTag: "Technologies & Tools",
+    techTitle: "My Tech Stack",
 
     // Projects
     projectsTag: "Portfolio",

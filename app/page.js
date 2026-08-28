@@ -1,5 +1,6 @@
 import Hero from "./components/Hero";
 import About from "./components/About";
+import TechStack from "./components/TechStack";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 
@@ -12,14 +13,11 @@ export default function Home() {
 
       <About />
 
-      <section
-        id="proyectos"
-        className="gpu-section mx-auto max-w-6xl px-6 pb-24 pt-32 scroll-mt-10 sm:px-8"
-      >
-        <Projects />
-      </section>
+      <TechStack />
 
-      {/* Sección final de Contacto */}
+      <Projects />
+
+      {/* Sección final de Contacto y Footer */}
       <Contact />
     </main>
   );
