@@ -13,20 +13,14 @@ export default function Projects() {
 
   const PROJECTS = [
     {
-      title: lang === "es" ? "Proyecto 1" : "Project 1",
+      title: lang === "es" ? "iEssentials — Web App E-Commerce & Catálogo Digital interactivo" : "iEssentials — E-Commerce Web App & Interactive Digital Catalog",
       description: t.project1Desc,
       tags: ["Next.js", "Tailwind CSS", "TypeScript"],
-      image: "/proyecto-1.jpg",
-      link: "https://github.com",
-    },
-    {
-      title: lang === "es" ? "Proyecto 2" : "Project 2",
-      description: t.project2Desc,
-      tags: ["React", "Node.js", "MongoDB"],
-      image: "/proyecto-2.jpg",
-      link: "https://github.com",
+      image: "/proyecto-1.png",
+      link: "https://catalogo-iessentials.vercel.app/",
     },
   ];
+
 
   useEffect(() => {
     const element = rootRef.current;
@@ -59,11 +53,9 @@ export default function Projects() {
   const getAnimStyle = (delay) => ({
     opacity: visible ? 1 : 0,
     transform: visible ? "translateY(0px)" : "translateY(60px)",
-    transition: `opacity 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${
-      visible ? delay : 0
-    }ms, transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${
-      visible ? delay : 0
-    }ms`,
+    transition: `opacity 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${visible ? delay : 0
+      }ms, transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${visible ? delay : 0
+      }ms`,
     willChange: "opacity, transform",
   });
 

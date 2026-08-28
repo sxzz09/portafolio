@@ -13,7 +13,7 @@ export const translations = {
     heroDesc: "Diseño y construyo productos digitales con foco en experiencias modernas y soluciones impulsadas por IA.",
     viewProjects: "Ver Proyectos",
     contactMe: "Contáctame",
-    
+
     // About
     aboutTag: "Conóceme",
     aboutTitle: "Sobre mí",
@@ -32,7 +32,7 @@ export const translations = {
     // Projects
     projectsTag: "Portafolio",
     projectsTitle: "Proyectos",
-    project1Desc: "Descripción breve del proyecto y las tecnologías utilizadas.",
+    project1Desc: "Plataforma de comercio electrónico diseñada con una estética minimalista tipo Apple, orientada a la venta de accesorios con soporte de precios al detal y al mayor en tiempo real.",
     project2Desc: "Descripción breve del proyecto y las tecnologías utilizadas.",
     seeMore: "Ver más",
 
@@ -70,7 +70,7 @@ export const translations = {
     // Projects
     projectsTag: "Portfolio",
     projectsTitle: "Projects",
-    project1Desc: "Brief description of the project and technologies used.",
+    project1Desc: "An e-commerce platform built with an Apple-inspired minimalist aesthetic, designed to showcase and sell accessories with real-time support for both retail and wholesale pricing models.",
     project2Desc: "Brief description of the project and technologies used.",
     seeMore: "View more",
 
