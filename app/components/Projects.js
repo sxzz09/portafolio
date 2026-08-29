@@ -19,6 +19,13 @@ export default function Projects() {
       image: "/proyecto-1.png",
       link: "https://catalogo-iessentials.vercel.app/",
     },
+    {
+      title: lang === "es" ? "TrackReady: La solución para Simracers." : "TrackReady: The solution for Simracers.",
+      description: t.project2Desc,
+      tags: ["Next.js", "Tailwind CSS", "React", "TypeScript"],
+      image: "/proyecto-2.png",
+      link: "",
+    },
   ];
 
 
