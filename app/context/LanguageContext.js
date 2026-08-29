@@ -37,7 +37,7 @@ export const translations = {
     projectsTag: "Portafolio",
     projectsTitle: "Proyectos",
     project1Desc: "Plataforma de comercio electrónico diseñada con una estética minimalista tipo Apple, orientada a la venta de accesorios con soporte de precios al detal y al mayor en tiempo real.",
-    project2Desc: "Descripción breve del proyecto y las tecnologías utilizadas.",
+    project2Desc: "Generador instantáneo de setups para Assetto Corsa Competizione. Abstrae la complejidad de la telemetría en un flujo de 4 pasos, entregando presets optimizados y archivos JSON listos para salir a pista en segundos.",
     seeMore: "Ver más",
 
     // Contact & Footer
@@ -79,7 +79,7 @@ export const translations = {
     projectsTag: "Portfolio",
     projectsTitle: "Projects",
     project1Desc: "An e-commerce platform built with an Apple-inspired minimalist aesthetic, designed to showcase and sell accessories with real-time support for both retail and wholesale pricing models.",
-    project2Desc: "Brief description of the project and technologies used.",
+    project2Desc: "An instant setup generator for Assetto Corsa Competizione. It turns complex telemetry tuning into a frictionless 4-step workflow, delivering optimized, race-ready JSON presets in seconds.",
     seeMore: "View more",
 
     // Contact & Footer
