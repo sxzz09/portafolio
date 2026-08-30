@@ -11,11 +11,11 @@ export default function About() {
   const [visible, setVisible] = useState(false);
   const { lang, t } = useLanguage();
 
-  // Estados independientes de posición y visibilidad para la foto
+  // Estados del spotlight para la foto
   const [photoPos, setPhotoPos] = useState({ x: -1000, y: -1000 });
   const [photoActive, setPhotoActive] = useState(false);
 
-  // Estados independientes para las 4 tarjetas
+  // Estados del spotlight para las 4 tarjetas
   const [cardPos, setCardPos] = useState({ x: -1000, y: -1000 });
   const [activeCardIdx, setActiveCardIdx] = useState(null);
 
@@ -96,12 +96,12 @@ export default function About() {
           className="flex flex-col items-center gap-6 sm:flex-row sm:items-start lg:col-span-7"
           style={getAnimStyle(HEADER_MS * 2)}
         >
-          {/* Foto con Spotlight */}
+          {/* Foto de Perfil con Spotlight dinámico */}
           <div
             onMouseMove={handlePhotoMouseMove}
             onMouseEnter={() => setPhotoActive(true)}
             onMouseLeave={() => setPhotoActive(false)}
-            className="group relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.2)]"
+            className="group relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-[#121113] transition-all duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.2)]"
           >
             {photoActive && (
               <div
@@ -137,9 +137,9 @@ export default function About() {
           </p>
         </div>
 
-        {/* Tarjetas de Skills con Spotlight perfecto */}
+        {/* Tarjetas de Skills opacas aisladas de los orbes del background */}
         <div
-          className="grid gap-4 sm:grid-cols-2 lg:col-span-5"
+          className="grid isolate gap-4 sm:grid-cols-2 lg:col-span-5"
           style={getAnimStyle(HEADER_MS * 3)}
         >
           {[
@@ -153,13 +153,13 @@ export default function About() {
               onMouseMove={handleCardMouseMove}
               onMouseEnter={() => setActiveCardIdx(idx)}
               onMouseLeave={() => setActiveCardIdx(null)}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-red-500/50 hover:bg-white/[0.06] hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.25)]"
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-[#121113] p-5 transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-red-500/50 hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.25)]"
             >
               {activeCardIdx === idx && (
                 <div
                   className="pointer-events-none absolute -inset-px z-10 rounded-2xl transition-opacity duration-300"
                   style={{
-                    background: `radial-gradient(160px circle at ${cardPos.x}px ${cardPos.y}px, rgba(239, 68, 68, 0.2), transparent 80%)`,
+                    background: `radial-gradient(160px circle at ${cardPos.x}px ${cardPos.y}px, rgba(239, 68, 68, 0.25), transparent 80%)`,
                   }}
                 />
               )}
