@@ -58,6 +58,13 @@ export default function Projects() {
       link: "",
       isLive: false,
     },
+    {
+      title: lang === "es" ? "TrackReady: La solución para Simracers." : "TrackReady: The solution for Simracers.",
+      description: t.project2Desc,
+      tags: ["Next.js", "Tailwind CSS", "React", "TypeScript"],
+      image: "/proyecto-2.png",
+      link: "",
+    },
   ];
 
   const handleOpenModal = (project) => {
