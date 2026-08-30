@@ -51,9 +51,11 @@ export default function About() {
   const getAnimStyle = (delay = 0) => ({
     opacity: visible ? 1 : 0,
     transform: visible ? "translateY(0px)" : "translateY(50px)",
-    transition: `opacity 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${visible ? delay : 0
-      }ms, transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${visible ? delay : 0
-      }ms`,
+    transition: `opacity 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${
+      visible ? delay : 0
+    }ms, transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${
+      visible ? delay : 0
+    }ms`,
     willChange: "opacity, transform",
   });
 
@@ -81,6 +83,7 @@ export default function About() {
           className="flex flex-col items-center gap-6 sm:flex-row sm:items-start lg:col-span-7"
           style={getAnimStyle(HEADER_MS * 2)}
         >
+          {/* Tarjeta de Foto */}
           <div
             onMouseMove={handleMouseMove}
             className="group relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.2)]"
@@ -91,7 +94,7 @@ export default function About() {
                 background: `radial-gradient(200px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(239, 68, 68, 0.25), transparent 80%)`,
               }}
             />
-            <div className="relative h-44 w-36 sm:h-52 sm:w-40">
+            <div className="relative z-0 h-44 w-36 sm:h-52 sm:w-40">
               <Image
                 src="/mi-foto.jpg"
                 alt="Sebastián"
@@ -117,6 +120,7 @@ export default function About() {
           </p>
         </div>
 
+        {/* Tarjetas de Skills / Cualidades */}
         <div
           className="grid gap-4 sm:grid-cols-2 lg:col-span-5"
           style={getAnimStyle(HEADER_MS * 3)}
@@ -130,20 +134,23 @@ export default function About() {
             <div
               key={idx}
               onMouseMove={handleMouseMove}
-              className="group relative rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-2 hover:border-red-500/50 hover:bg-white/[0.06] hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.25)]"
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-2 hover:border-red-500/50 hover:bg-white/[0.06] hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.25)]"
             >
+              {/* Glow Spotlight corregido con z-10 */}
               <div
-                className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                className="pointer-events-none absolute -inset-px z-10 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 style={{
                   background: `radial-gradient(180px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(239, 68, 68, 0.2), transparent 80%)`,
                 }}
               />
-              <h3 className="relative z-10 text-sm font-semibold text-red-300 transition-colors duration-300 group-hover:text-red-400">
-                {card.title}
-              </h3>
-              <p className="relative z-10 mt-1.5 text-xs text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
-                {card.desc}
-              </p>
+              <div className="relative z-20">
+                <h3 className="text-sm font-semibold text-red-300 transition-colors duration-300 group-hover:text-red-400">
+                  {card.title}
+                </h3>
+                <p className="mt-1.5 text-xs text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
+                  {card.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>
