@@ -6,41 +6,14 @@ import { useLanguage } from "../context/LanguageContext";
 
 const HEADER_MS = 100;
 
-function CardSpotlight({ children, className = "" }) {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [opacity, setOpacity] = useState(0);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
-  };
-
-  return (
-    <div
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setOpacity(1)}
-      onMouseLeave={() => setOpacity(0)}
-      className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-2 hover:border-red-500/50 hover:bg-white/[0.06] hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.25)] ${className}`}
-    >
-      <div
-        className="pointer-events-none absolute -inset-px transition-opacity duration-300"
-        style={{
-          opacity,
-          background: `radial-gradient(200px circle at ${position.x}px ${position.y}px, rgba(239, 68, 68, 0.2), transparent 80%)`,
-        }}
-      />
-      {children}
-    </div>
-  );
-}
-
 export default function About() {
   const rootRef = useRef(null);
   const [visible, setVisible] = useState(false);
   const { lang, t } = useLanguage();
+
+  // Estado para el spotlight dinámico exclusivo de la foto
+  const [photoPos, setPhotoPos] = useState({ x: 0, y: 0 });
+  const [photoOpacity, setPhotoOpacity] = useState(0);
 
   useEffect(() => {
     const element = rootRef.current;
@@ -67,6 +40,14 @@ export default function About() {
       }
     }
   }, [lang]);
+
+  const handlePhotoMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setPhotoPos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   const getAnimStyle = (delay = 0) => ({
     opacity: visible ? 1 : 0,
@@ -103,9 +84,21 @@ export default function About() {
           className="flex flex-col items-center gap-6 sm:flex-row sm:items-start lg:col-span-7"
           style={getAnimStyle(HEADER_MS * 2)}
         >
-          {/* Foto de perfil */}
-          <CardSpotlight className="shrink-0 p-0 !hover:-translate-y-1">
-            <div className="relative h-44 w-36 sm:h-52 sm:w-40">
+          {/* Tarjeta de Foto con Spotlight Dinámico */}
+          <div
+            onMouseMove={handlePhotoMouseMove}
+            onMouseEnter={() => setPhotoOpacity(1)}
+            onMouseLeave={() => setPhotoOpacity(0)}
+            className="group relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.2)]"
+          >
+            <div
+              className="pointer-events-none absolute -inset-px z-10 rounded-2xl transition-opacity duration-300"
+              style={{
+                opacity: photoOpacity,
+                background: `radial-gradient(180px circle at ${photoPos.x}px ${photoPos.y}px, rgba(239, 68, 68, 0.3), transparent 80%)`,
+              }}
+            />
+            <div className="relative z-0 h-44 w-36 sm:h-52 sm:w-40">
               <Image
                 src="/mi-foto.jpg"
                 alt="Sebastián"
@@ -115,7 +108,7 @@ export default function About() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent opacity-60" />
             </div>
-          </CardSpotlight>
+          </div>
 
           <p className="text-base leading-relaxed text-zinc-400">
             {t.aboutText1}{" "}
@@ -131,7 +124,7 @@ export default function About() {
           </p>
         </div>
 
-        {/* Tarjetas de Skills */}
+        {/* Tarjetas de Skills con Hover Glow Limpio (Sin scripts ni manchas) */}
         <div
           className="grid gap-4 sm:grid-cols-2 lg:col-span-5"
           style={getAnimStyle(HEADER_MS * 3)}
@@ -142,14 +135,17 @@ export default function About() {
             { title: t.card3Title, desc: t.card3Desc },
             { title: t.card4Title, desc: t.card4Desc },
           ].map((card, idx) => (
-            <CardSpotlight key={idx} className="p-5">
+            <div
+              key={idx}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-red-500/40 hover:bg-white/[0.05] hover:shadow-[0_10px_25px_-5px_rgba(239,68,68,0.15)]"
+            >
               <h3 className="text-sm font-semibold text-red-300 transition-colors duration-300 group-hover:text-red-400">
                 {card.title}
               </h3>
               <p className="mt-1.5 text-xs text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
                 {card.desc}
               </p>
-            </CardSpotlight>
+            </div>
           ))}
         </div>
       </div>
