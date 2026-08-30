@@ -21,14 +21,13 @@ export default function About() {
           setVisible(true);
         }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
     );
 
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
 
-  // Reinicia la visibilidad al cambiar de idioma manteniendo el re-animado
   useEffect(() => {
     if (rootRef.current) {
       const rect = rootRef.current.getBoundingClientRect();
@@ -40,14 +39,21 @@ export default function About() {
     }
   }, [lang]);
 
-  const getAnimStyle = (delay) => ({
+  const handleMouseMove = (e) => {
+    const target = e.currentTarget;
+    const rect = target.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    target.style.setProperty("--mouse-x", `${x}px`);
+    target.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  const getAnimStyle = (delay = 0) => ({
     opacity: visible ? 1 : 0,
-    transform: visible ? "translateY(0px)" : "translateY(60px)",
-    transition: `opacity 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${
-      visible ? delay : 0
-    }ms, transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${
-      visible ? delay : 0
-    }ms`,
+    transform: visible ? "translateY(0px)" : "translateY(50px)",
+    transition: `opacity 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${visible ? delay : 0
+      }ms, transform 800ms cubic-bezier(0.34, 1.56, 0.64, 1) ${visible ? delay : 0
+      }ms`,
     willChange: "opacity, transform",
   });
 
@@ -75,7 +81,16 @@ export default function About() {
           className="flex flex-col items-center gap-6 sm:flex-row sm:items-start lg:col-span-7"
           style={getAnimStyle(HEADER_MS * 2)}
         >
-          <div className="group relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition hover:border-red-500/40">
+          <div
+            onMouseMove={handleMouseMove}
+            className="group relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.2)]"
+          >
+            <div
+              className="pointer-events-none absolute -inset-px z-10 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              style={{
+                background: `radial-gradient(200px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(239, 68, 68, 0.25), transparent 80%)`,
+              }}
+            />
             <div className="relative h-44 w-36 sm:h-52 sm:w-40">
               <Image
                 src="/mi-foto.jpg"
@@ -106,25 +121,31 @@ export default function About() {
           className="grid gap-4 sm:grid-cols-2 lg:col-span-5"
           style={getAnimStyle(HEADER_MS * 3)}
         >
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-red-500/40 hover:bg-white/[0.05]">
-            <h3 className="text-sm font-semibold text-red-300">{t.card1Title}</h3>
-            <p className="mt-1.5 text-xs text-zinc-400">{t.card1Desc}</p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-red-500/40 hover:bg-white/[0.05]">
-            <h3 className="text-sm font-semibold text-red-300">{t.card2Title}</h3>
-            <p className="mt-1.5 text-xs text-zinc-400">{t.card2Desc}</p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-red-500/40 hover:bg-white/[0.05]">
-            <h3 className="text-sm font-semibold text-red-300">{t.card3Title}</h3>
-            <p className="mt-1.5 text-xs text-zinc-400">{t.card3Desc}</p>
-          </div>
-
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-red-500/40 hover:bg-white/[0.05]">
-            <h3 className="text-sm font-semibold text-red-300">{t.card4Title}</h3>
-            <p className="mt-1.5 text-xs text-zinc-400">{t.card4Desc}</p>
-          </div>
+          {[
+            { title: t.card1Title, desc: t.card1Desc },
+            { title: t.card2Title, desc: t.card2Desc },
+            { title: t.card3Title, desc: t.card3Desc },
+            { title: t.card4Title, desc: t.card4Desc },
+          ].map((card, idx) => (
+            <div
+              key={idx}
+              onMouseMove={handleMouseMove}
+              className="group relative rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-2 hover:border-red-500/50 hover:bg-white/[0.06] hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.25)]"
+            >
+              <div
+                className="pointer-events-none absolute -inset-px rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                style={{
+                  background: `radial-gradient(180px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(239, 68, 68, 0.2), transparent 80%)`,
+                }}
+              />
+              <h3 className="relative z-10 text-sm font-semibold text-red-300 transition-colors duration-300 group-hover:text-red-400">
+                {card.title}
+              </h3>
+              <p className="relative z-10 mt-1.5 text-xs text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
+                {card.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

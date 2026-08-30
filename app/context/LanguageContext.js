@@ -37,8 +37,17 @@ export const translations = {
     projectsTag: "Portafolio",
     projectsTitle: "Proyectos",
     project1Desc: "Plataforma de comercio electrónico diseñada con una estética minimalista tipo Apple, orientada a la venta de accesorios con soporte de precios al detal y al mayor en tiempo real.",
-    project2Desc: "Descripción breve del proyecto y las tecnologías utilizadas.",
+    project2Desc: "Generador instantáneo de setups para Assetto Corsa Competizione. Abstrae la complejidad de la telemetría en un flujo de 4 pasos, entregando presets optimizados y archivos JSON listos para salir a pista en segundos.",
+    project1Extended: "iEssentials es una plataforma de comercio electrónico diseñada con una estética minimalista y elegante, inspirada en el diseño de Apple. El objetivo principal es ofrecer una experiencia de usuario fluida y atractiva para la venta de accesorios, destacando por su interfaz limpia y de alto rendimiento. Incorpora un sistema de autenticación seguro y una interfaz responsiva que garantiza una visualización óptima en cualquier dispositivo.",
+    project2Extended: "TrackReady fue creado para resolver la necesidad principal de los simracers. Implementa un generador de presets simple de 4 pasos para Assetto Corsa Competizione, dándote un setup profesional para cada coche GT3 y circuito del juego.",
     seeMore: "Ver más",
+
+    // Modal
+    howIBuiltIt: "¿Cómo lo hice?",
+    howItWorks: "¿Cómo funciona?",
+    screenshots: "Capturas de pantalla",
+    close: "Cerrar",
+    visitProject: "Visitar Proyecto",
 
     // Contact & Footer
     contactTag: "¿Hablamos?",
@@ -79,8 +88,17 @@ export const translations = {
     projectsTag: "Portfolio",
     projectsTitle: "Projects",
     project1Desc: "An e-commerce platform built with an Apple-inspired minimalist aesthetic, designed to showcase and sell accessories with real-time support for both retail and wholesale pricing models.",
-    project2Desc: "Brief description of the project and technologies used.",
-    seeMore: "View more",
+    project2Desc: "An instant setup generator for Assetto Corsa Competizione. It turns complex telemetry tuning into a frictionless 4-step workflow, delivering optimized, race-ready JSON presets in seconds.",
+    project1Extended: "iEssentials is an e-commerce platform built with a clean, minimalist design focused on high performance and user experience. It supports real-time retail and wholesale pricing, a secure authentication system, and a responsive interface designed to adapt seamlessly across all devices.",
+    project2Extended: "TrackReady was created to solve the main need of a simracer. It implements a simple 4 steps preset generator for Assetto Corsa Competizione, giving you a prolevel setup for every gt3 car and circuit of the game.",
+    seeMore: "See more",
+
+    // Modal
+    howIBuiltIt: "How I built it",
+    howItWorks: "How it works",
+    screenshots: "Screenshots",
+    close: "Close",
+    visitProject: "Visit Project",
 
     // Contact & Footer
     contactTag: "Let's talk",

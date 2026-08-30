@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../context/LanguageContext";
 
-const HEADER_MS = 100;
-
 const TECHS = [
     {
         name: "JavaScript",
@@ -79,9 +77,11 @@ export default function TechStack() {
 
         const observer = new IntersectionObserver(
             ([entry]) => {
-                if (entry.isIntersecting) setVisible(true);
+                if (entry.isIntersecting) {
+                    setVisible(true);
+                }
             },
-            { threshold: 0.2 }
+            { threshold: 0.15, rootMargin: "0px 0px -50px 0px" }
         );
 
         observer.observe(element);
@@ -99,10 +99,11 @@ export default function TechStack() {
         }
     }, [lang]);
 
-    const getAnimStyle = (delay) => ({
+    const getAnimStyle = (delay = 0) => ({
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0px)" : "translateY(35px)",
+        transform: visible ? "translateY(0px)" : "translateY(40px)",
         transition: `opacity 800ms cubic-bezier(0.16, 1, 0.3, 1) ${visible ? delay : 0}ms, transform 800ms cubic-bezier(0.16, 1, 0.3, 1) ${visible ? delay : 0}ms`,
+        willChange: "opacity, transform",
     });
 
     return (
@@ -112,14 +113,14 @@ export default function TechStack() {
             className="relative mx-auto max-w-6xl px-6 py-20 sm:px-8 scroll-mt-10"
         >
             <p
-                className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-red-400/90"
+                className="mb-3 text-sm font-medium uppercase tracking-[0.22em] text-red-400/90 transition-all"
                 style={getAnimStyle(0)}
             >
                 {t.techTag || "TECNOLOGÍAS & HERRAMIENTAS"}
             </p>
             <h2
-                className="text-3xl font-semibold tracking-tight text-white sm:text-4xl"
-                style={getAnimStyle(HEADER_MS)}
+                className="text-3xl font-semibold tracking-tight text-white sm:text-4xl transition-all"
+                style={getAnimStyle(100)}
             >
                 {t.techTitle || "Mi Tech Stack"}
             </h2>
@@ -129,7 +130,8 @@ export default function TechStack() {
                 {TECHS.map((tech, index) => (
                     <div
                         key={tech.name}
-                        style={getAnimStyle(HEADER_MS * (1.5 + index * 0.4))}
+                        className="transition-all"
+                        style={getAnimStyle(150 + index * 60)}
                     >
                         <div className="group relative flex cursor-default flex-col items-start rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:-translate-y-3 hover:scale-[1.03] hover:border-red-500/50 hover:bg-white/[0.06] hover:shadow-[0_20px_40px_-15px_rgba(239,68,68,0.25)]">
                             <div className="flex size-11 items-center justify-center rounded-xl border border-white/10 bg-zinc-900/90 transition-colors duration-500 group-hover:border-red-500/40 group-hover:bg-zinc-900">

@@ -51,6 +51,7 @@ body {
     opacity: 0;
     transform: translateY(16px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -58,10 +59,12 @@ body {
 }
 
 @keyframes drift {
+
   0%,
   100% {
     transform: translate3d(0, 0, 0) scale(1);
   }
+
   50% {
     transform: translate3d(24px, -18px, 0) scale(1.08);
   }
@@ -81,4 +84,21 @@ body {
 .gpu-section {
   transform: translateZ(0);
   backface-visibility: hidden;
+}
+
+/* Ocultar barra de desplazamiento en TODOS los elementos (página principal, contenedores y modales) */
+*,
+html,
+body {
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE y Edge */
+}
+
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera y Edge moderno */
 }
