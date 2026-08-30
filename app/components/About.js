@@ -11,9 +11,13 @@ export default function About() {
   const [visible, setVisible] = useState(false);
   const { lang, t } = useLanguage();
 
-  // Estado para el spotlight dinámico exclusivo de la foto
-  const [photoPos, setPhotoPos] = useState({ x: 0, y: 0 });
-  const [photoOpacity, setPhotoOpacity] = useState(0);
+  // Estados independientes de posición y visibilidad para la foto
+  const [photoPos, setPhotoPos] = useState({ x: -1000, y: -1000 });
+  const [photoActive, setPhotoActive] = useState(false);
+
+  // Estados independientes para las 4 tarjetas
+  const [cardPos, setCardPos] = useState({ x: -1000, y: -1000 });
+  const [activeCardIdx, setActiveCardIdx] = useState(null);
 
   useEffect(() => {
     const element = rootRef.current;
@@ -40,6 +44,14 @@ export default function About() {
       }
     }
   }, [lang]);
+
+  const handleCardMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setCardPos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+  };
 
   const handlePhotoMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -84,20 +96,21 @@ export default function About() {
           className="flex flex-col items-center gap-6 sm:flex-row sm:items-start lg:col-span-7"
           style={getAnimStyle(HEADER_MS * 2)}
         >
-          {/* Tarjeta de Foto con Spotlight Dinámico */}
+          {/* Foto con Spotlight */}
           <div
             onMouseMove={handlePhotoMouseMove}
-            onMouseEnter={() => setPhotoOpacity(1)}
-            onMouseLeave={() => setPhotoOpacity(0)}
+            onMouseEnter={() => setPhotoActive(true)}
+            onMouseLeave={() => setPhotoActive(false)}
             className="group relative shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-all duration-300 hover:-translate-y-1 hover:border-red-500/50 hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.2)]"
           >
-            <div
-              className="pointer-events-none absolute -inset-px z-10 rounded-2xl transition-opacity duration-300"
-              style={{
-                opacity: photoOpacity,
-                background: `radial-gradient(180px circle at ${photoPos.x}px ${photoPos.y}px, rgba(239, 68, 68, 0.3), transparent 80%)`,
-              }}
-            />
+            {photoActive && (
+              <div
+                className="pointer-events-none absolute -inset-px z-10 rounded-2xl transition-opacity duration-300"
+                style={{
+                  background: `radial-gradient(180px circle at ${photoPos.x}px ${photoPos.y}px, rgba(239, 68, 68, 0.25), transparent 80%)`,
+                }}
+              />
+            )}
             <div className="relative z-0 h-44 w-36 sm:h-52 sm:w-40">
               <Image
                 src="/mi-foto.jpg"
@@ -124,7 +137,7 @@ export default function About() {
           </p>
         </div>
 
-        {/* Tarjetas de Skills con Hover Glow Limpio (Sin scripts ni manchas) */}
+        {/* Tarjetas de Skills con Spotlight perfecto */}
         <div
           className="grid gap-4 sm:grid-cols-2 lg:col-span-5"
           style={getAnimStyle(HEADER_MS * 3)}
@@ -137,14 +150,27 @@ export default function About() {
           ].map((card, idx) => (
             <div
               key={idx}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-red-500/40 hover:bg-white/[0.05] hover:shadow-[0_10px_25px_-5px_rgba(239,68,68,0.15)]"
+              onMouseMove={handleCardMouseMove}
+              onMouseEnter={() => setActiveCardIdx(idx)}
+              onMouseLeave={() => setActiveCardIdx(null)}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-5 backdrop-blur-md transition-all duration-300 ease-out hover:-translate-y-1.5 hover:border-red-500/50 hover:bg-white/[0.06] hover:shadow-[0_15px_30px_-10px_rgba(239,68,68,0.25)]"
             >
-              <h3 className="text-sm font-semibold text-red-300 transition-colors duration-300 group-hover:text-red-400">
-                {card.title}
-              </h3>
-              <p className="mt-1.5 text-xs text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
-                {card.desc}
-              </p>
+              {activeCardIdx === idx && (
+                <div
+                  className="pointer-events-none absolute -inset-px z-10 rounded-2xl transition-opacity duration-300"
+                  style={{
+                    background: `radial-gradient(160px circle at ${cardPos.x}px ${cardPos.y}px, rgba(239, 68, 68, 0.2), transparent 80%)`,
+                  }}
+                />
+              )}
+              <div className="relative z-20">
+                <h3 className="text-sm font-semibold text-red-300 transition-colors duration-300 group-hover:text-red-400">
+                  {card.title}
+                </h3>
+                <p className="mt-1.5 text-xs text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
+                  {card.desc}
+                </p>
+              </div>
             </div>
           ))}
         </div>
